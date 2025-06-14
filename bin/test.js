@@ -92,7 +92,7 @@ class PackageTest {
 
     // Verify config.json content
     const config = JSON.parse(fs.readFileSync('.claude/claude-knowledge-transfer/config.json', 'utf8'));
-    if (!config.knowledgeTransfer || config.knowledgeTransfer.version !== '1.1.0') {
+    if (!config.knowledgeTransfer || config.knowledgeTransfer.version !== '1.1.1') {
       throw new Error('Invalid config.json content');
     }
     if (config.knowledgeTransfer.templatePath !== '.claude/templates/claude-knowledge-transfer/') {
