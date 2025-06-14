@@ -18,7 +18,7 @@ The command will always create exactly these 6 files in `.claude-knowledge/`:
 
 1. **Create Knowledge Directory**
    - Create `.claude-knowledge/` directory if it doesn't exist
-   - Create `.claude-knowledge/templates/` subdirectory for future template storage
+   - This is where the 6 knowledge files will be stored (not templates)
 
 2. **Check for Existing Knowledge Base**
    - If `.claude-knowledge/` exists with previous files, create backup:
@@ -29,9 +29,9 @@ The command will always create exactly these 6 files in `.claude-knowledge/`:
 3. **Generate All 6 Standard Files**
 
    For each file, check for templates in this order:
-   1. `.claude-knowledge/templates/[filename].template.md` (project-specific customizations)
+   1. `.claude-knowledge/templates/[filename].template.md` (if user created custom templates)
    2. `.claude/templates/[filename].template.md` (project defaults from npm package)
-   3. Built-in structure (defined below)
+   3. Built-in structure (fallback if no templates found)
 
    **Always create these exact files:**
 
@@ -116,8 +116,8 @@ The command will always create exactly these 6 files in `.claude-knowledge/`:
 
 ## Template Usage
 
-When templates exist, use them as the structure and fill in the specific content. Templates are located in:
-- `.claude-knowledge/templates/[FILENAME].template.md` (project customizations)
-- `.claude/templates/[FILENAME].template.md` (project defaults)
+When templates exist, use them as the structure and fill in the specific content. Templates are searched in this order:
+- `.claude-knowledge/templates/[FILENAME].template.md` (user custom templates - optional)
+- `.claude/templates/[FILENAME].template.md` (project defaults from npm package)
 
-Always prioritize project-specific customizations over project defaults.
+Note: The `.claude-knowledge/templates/` directory is only used if you manually create custom templates. By default, the system uses templates from `.claude/templates/`.

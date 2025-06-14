@@ -133,8 +133,8 @@ The system expects exactly these 6 files in `.claude-knowledge/`:
 ## Template Integration
 
 The system reads from templates located in:
-- `.claude-knowledge/templates/[FILENAME].template.md` (project customizations)
-- `.claude/templates/[FILENAME].template.md` (project defaults)
+- `.claude-knowledge/templates/[FILENAME].template.md` (user custom templates - optional)
+- `.claude/templates/[FILENAME].template.md` (project defaults from npm package)
 
 When restoring, understand the template structure to interpret the content correctly.
 

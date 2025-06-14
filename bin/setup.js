@@ -124,9 +124,9 @@ Run these commands in Claude Code:
 /project:archive-knowledge
 \`\`\`
 
-## Standardized Files Created
+## How It Works
 
-The system always creates these 6 files in \`.claude-knowledge/\`:
+When you run \`/project:initiate-knowledge-transfer\`, it creates a \`.claude-knowledge/\` directory with these 6 files:
 
 - 📄 \`PROJECT_CONTEXT.md\` - Main project context and state
 - 📊 \`ARCHITECTURE.mermaid\` - Visual system architecture  
@@ -135,12 +135,14 @@ The system always creates these 6 files in \`.claude-knowledge/\`:
 - 🔍 \`INVESTIGATION_FINDINGS.md\` - Research results and findings
 - 👀 \`REVIEW_FEEDBACK.md\` - Code review and optimization notes
 
-## Customizing Templates
+## Template System
 
-To customize templates for this project:
+Templates are stored in \`.claude/templates/\` (installed by this package).
+
+To customize templates for your project:
 
 \`\`\`bash
-# Copy default templates to project
+# Copy default templates to custom location (optional)
 mkdir -p .claude-knowledge/templates
 cp .claude/templates/* .claude-knowledge/templates/
 
