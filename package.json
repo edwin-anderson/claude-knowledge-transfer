@@ -4,7 +4,7 @@
   "description": "A standardized solution for preserving context across Claude Code's automatic compaction",
   "main": "index.js",
   "bin": {
-    "setup-claude-knowledge": "./bin/setup.js"
+    "setup-claude-knowledge": "bin/setup.js"
   },
   "scripts": {
     "postinstall": "node bin/setup.js",
@@ -32,7 +32,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/edwin-anderson/claude-knowledge-transfer.git"
+    "url": "git+https://github.com/edwin-anderson/claude-knowledge-transfer.git"
   },
   "homepage": "https://github.com/edwin-anderson/claude-knowledge-transfer#readme",
   "bugs": {
