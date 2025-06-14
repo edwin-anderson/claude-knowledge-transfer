@@ -1,0 +1,40 @@
+{
+  "name": "claude-knowledge-transfer",
+  "version": "1.0.0",
+  "description": "A standardized solution for preserving context across Claude Code's automatic compaction",
+  "main": "index.js",
+  "bin": {
+    "setup-claude-knowledge": "./bin/setup.js"
+  },
+  "scripts": {
+    "postinstall": "node bin/setup.js",
+    "test": "node bin/test.js"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "context",
+    "knowledge-transfer",
+    "ai",
+    "development"
+  ],
+  "author": "Edwin Anderson",
+  "license": "MIT",
+  "files": [
+    "commands/",
+    "templates/",
+    "bin/",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/edwin-anderson/claude-knowledge-transfer.git"
+  },
+  "homepage": "https://github.com/edwin-anderson/claude-knowledge-transfer#readme",
+  "bugs": {
+    "url": "https://github.com/edwin-anderson/claude-knowledge-transfer/issues"
+  }
+}

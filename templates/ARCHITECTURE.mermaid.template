@@ -1,0 +1,50 @@
+```mermaid
+graph TD
+    %% System Architecture Overview
+    %% Generated: [timestamp]
+    %% Project: [project-name]
+    
+    %% External Systems
+    Client[Client/Frontend]
+    Database[(Database)]
+    ExternalAPI[External APIs]
+    
+    %% Core Components
+    subgraph "Application Layer"
+        Controller[Controller/Router]
+        Service[Business Logic]
+        Repository[Data Access]
+    end
+    
+    %% Data Flow
+    Client --> Controller
+    Controller --> Service
+    Service --> Repository
+    Repository --> Database
+    Service --> ExternalAPI
+    
+    %% Add your specific components here:
+    %% [Component1] --> [Component2]
+    %% [Component2] --> [Component3]
+    
+    %% Styling
+    classDef primaryComponent fill:#e1f5fe
+    classDef dataStore fill:#fff3e0
+    classDef external fill:#f3e5f5
+    
+    class Controller,Service,Repository primaryComponent
+    class Database dataStore
+    class Client,ExternalAPI external
+```
+
+## Key Integration Points
+- [Point 1]: [Description]
+- [Point 2]: [Description]
+
+## Data Dependencies
+- [Dependency 1]: [Description]
+- [Dependency 2]: [Description]
+
+## Critical Paths
+- [Path 1]: [Flow description]
+- [Path 2]: [Flow description]
