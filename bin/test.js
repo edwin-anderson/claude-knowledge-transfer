@@ -3,109 +3,118 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const os = require('os');
 
 /**
- * Test script to verify the claude-knowledge-transfer setup works correctly
+ * Basic test script for Claude Knowledge Transfer package
  */
 
-console.log('🧪 Testing Claude Knowledge Transfer Setup...\n');
-
-// Create a temporary test directory
-const testDir = path.join(__dirname, '..', 'test-project');
-const originalCwd = process.cwd();
-
-try {
-  // Cleanup any existing test directory
-  if (fs.existsSync(testDir)) {
-    fs.rmSync(testDir, { recursive: true, force: true });
+class PackageTest {
+  constructor() {
+    this.packageRoot = path.join(__dirname, '..');
+    this.testDir = path.join(os.tmpdir(), 'claude-knowledge-test-' + Date.now());
   }
 
-  // Create test project
-  fs.mkdirSync(testDir, { recursive: true });
-  process.chdir(testDir);
+  log(message, type = 'info') {
+    const prefix = {
+      info: '🔧',
+      success: '✅',
+      error: '❌',
+      test: '🧪'
+    }[type];
+    console.log(`${prefix} ${message}`);
+  }
 
-  console.log('✅ Created test project directory');
-
-  // Initialize a minimal package.json
-  fs.writeFileSync('package.json', JSON.stringify({
-    name: 'test-project',
-    version: '1.0.0',
-    description: 'Test project for claude-knowledge-transfer'
-  }, null, 2));
-
-  console.log('✅ Created test package.json');
-
-  // Run the setup script
-  const setupPath = path.join(__dirname, 'setup.js');
-  execSync(`node ${setupPath}`, { stdio: 'inherit' });
-
-  // Verify the expected structure was created
-  const expectedPaths = [
-    '.claude',
-    '.claude/commands',
-    '.claude/templates',
-    '.claude/config.json',
-    '.claude/QUICK_START.md',
-    '.claude/commands/initiate-knowledge-transfer.md',
-    '.claude/commands/retrieve-knowledge-transfer.md',
-    '.claude/commands/check-context.md',
-    '.claude/commands/archive-knowledge.md',
-    '.claude/templates/claude-knowledge-transfer/PROJECT_CONTEXT.template.md',
-    '.claude/templates/claude-knowledge-transfer/ARCHITECTURE.mermaid.template',
-    '.claude/templates/claude-knowledge-transfer/PROGRESS_TRACKER.template.md',
-    '.claude/templates/claude-knowledge-transfer/IMPLEMENTATION_PLAN.template.md',
-    '.claude/templates/claude-knowledge-transfer/INVESTIGATION_FINDINGS.template.md',
-    '.claude/templates/claude-knowledge-transfer/REVIEW_FEEDBACK.template.md'
-  ];
-
-  let allGood = true;
-  expectedPaths.forEach(expectedPath => {
-    if (fs.existsSync(expectedPath)) {
-      console.log(`✅ ${expectedPath}`);
-    } else {
-      console.log(`❌ Missing: ${expectedPath}`);
-      allGood = false;
+  async runTest() {
+    try {
+      this.log('Starting Claude Knowledge Transfer package test', 'test');
+      
+      // Create test directory
+      fs.mkdirSync(this.testDir, { recursive: true });
+      this.log(`Created test directory: ${this.testDir}`);
+      
+      // Change to test directory
+      process.chdir(this.testDir);
+      this.log(`Changed to test directory`);
+      
+      // Create a simple package.json for the test project
+      const packageJson = {
+        name: 'test-project',
+        version: '1.0.0',
+        description: 'Test project for Claude Knowledge Transfer'
+      };
+      fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 2));
+      
+      // Run the setup script
+      const setupScript = path.join(this.packageRoot, 'bin', 'setup.js');
+      execSync(`node "${setupScript}"`, { stdio: 'inherit' });
+      
+      // Verify installation
+      this.verifyInstallation();
+      
+      this.log('All tests passed!', 'success');
+      
+    } catch (error) {
+      this.log(`Test failed: ${error.message}`, 'error');
+      process.exit(1);
+    } finally {
+      // Cleanup
+      if (fs.existsSync(this.testDir)) {
+        fs.rmSync(this.testDir, { recursive: true, force: true });
+        this.log(`Cleaned up test directory`);
+      }
     }
-  });
+  }
 
-  // Check .gitignore was updated
-  if (fs.existsSync('.gitignore')) {
-    const gitignoreContent = fs.readFileSync('.gitignore', 'utf8');
-    if (gitignoreContent.includes('.claude-knowledge/archive/')) {
-      console.log('✅ .gitignore updated correctly');
-    } else {
-      console.log('❌ .gitignore not updated correctly');
-      allGood = false;
+  verifyInstallation() {
+    const requiredFiles = [
+      '.claude/commands/initiate-knowledge-transfer.md',
+      '.claude/commands/retrieve-knowledge-transfer.md',
+      '.claude/commands/check-context.md',
+      '.claude/commands/archive-knowledge.md',
+      '.claude/templates/claude-knowledge-transfer/PROJECT_CONTEXT.template.md',
+      '.claude/templates/claude-knowledge-transfer/ARCHITECTURE.mermaid.template',
+      '.claude/templates/claude-knowledge-transfer/PROGRESS_TRACKER.template.md',
+      '.claude/templates/claude-knowledge-transfer/IMPLEMENTATION_PLAN.template.md',
+      '.claude/templates/claude-knowledge-transfer/INVESTIGATION_FINDINGS.template.md',
+      '.claude/templates/claude-knowledge-transfer/REVIEW_FEEDBACK.template.md',
+      '.claude/claude-knowledge-transfer/config.json',
+      '.claude/claude-knowledge-transfer/QUICK_START.md',
+      '.gitignore'
+    ];
+
+    for (const file of requiredFiles) {
+      if (!fs.existsSync(file)) {
+        throw new Error(`Required file not found: ${file}`);
+      }
+      this.log(`✓ Found ${file}`);
     }
-  } else {
-    console.log('✅ .gitignore created');
-  }
 
-  // Verify config.json content
-  const config = JSON.parse(fs.readFileSync('.claude/config.json', 'utf8'));
-  if (config.knowledgeTransfer && config.knowledgeTransfer.standardizedFiles.length === 6) {
-    console.log('✅ Config file contains correct structure');
-  } else {
-    console.log('❌ Config file structure incorrect');
-    allGood = false;
-  }
+    // Verify config.json content
+    const config = JSON.parse(fs.readFileSync('.claude/claude-knowledge-transfer/config.json', 'utf8'));
+    if (!config.knowledgeTransfer || config.knowledgeTransfer.version !== '1.1.0') {
+      throw new Error('Invalid config.json content');
+    }
+    if (config.knowledgeTransfer.templatePath !== '.claude/templates/claude-knowledge-transfer/') {
+      throw new Error('Invalid template path in config.json');
+    }
+    this.log('✓ Config.json has correct structure, version, and template path');
 
-  console.log('\n' + '='.repeat(50));
-  if (allGood) {
-    console.log('🎉 All tests passed! Setup script works correctly.');
-  } else {
-    console.log('❌ Some tests failed. Check the output above.');
-    process.exit(1);
-  }
+    // Verify .gitignore was updated
+    const gitignore = fs.readFileSync('.gitignore', 'utf8');
+    if (!gitignore.includes('.claude-knowledge/archive/')) {
+      throw new Error('.gitignore was not properly updated');
+    }
+    this.log('✓ .gitignore properly updated');
 
-} catch (error) {
-  console.error('❌ Test failed:', error.message);
-  process.exit(1);
-} finally {
-  // Cleanup
-  process.chdir(originalCwd);
-  if (fs.existsSync(testDir)) {
-    fs.rmSync(testDir, { recursive: true, force: true });
+    this.log('Installation verification completed', 'success');
   }
-  console.log('🧹 Cleaned up test directory');
 }
+
+// Run test if called directly
+if (require.main === module) {
+  const test = new PackageTest();
+  test.runTest();
+}
+
+module.exports = PackageTest;

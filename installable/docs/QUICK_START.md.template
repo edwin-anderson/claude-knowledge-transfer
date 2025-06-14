@@ -1,0 +1,45 @@
+# Claude Knowledge Transfer - Quick Start
+
+## Available Commands
+
+Run these commands in Claude Code:
+
+```bash
+# 1. Save context before compaction (at ~90% capacity)
+/project:initiate-knowledge-transfer
+
+# 2. After compaction, restore context  
+/project:retrieve-knowledge-transfer
+
+# 3. Verify context was restored correctly
+/project:check-context
+
+# 4. Archive important milestones (optional)
+/project:archive-knowledge
+```
+
+## How It Works
+
+When you run `/project:initiate-knowledge-transfer`, it creates a `.claude-knowledge/` directory with these 6 files:
+
+- 📄 `PROJECT_CONTEXT.md` - Main project context and state
+- 📊 `ARCHITECTURE.mermaid` - Visual system architecture  
+- 📋 `PROGRESS_TRACKER.md` - Task completion tracking
+- 📝 `IMPLEMENTATION_PLAN.md` - Detailed implementation steps
+- 🔍 `INVESTIGATION_FINDINGS.md` - Research results and findings
+- 👀 `REVIEW_FEEDBACK.md` - Code review and optimization notes
+
+## Template System
+
+Templates are stored in `.claude/templates/claude-knowledge-transfer/` (installed by this package).
+
+To customize templates for your project, you can edit them directly in `.claude/templates/claude-knowledge-transfer/`.
+
+## Best Practices
+
+1. **Save Early**: Run knowledge transfer at ~90% capacity, not 95%
+2. **Commit Knowledge**: Include `.claude-knowledge/` in git commits
+3. **Team Consistency**: Customize templates for your project's needs
+4. **Regular Verification**: Use check-context to ensure continuity
+
+For full documentation, see: README.md

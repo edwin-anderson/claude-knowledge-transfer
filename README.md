@@ -92,39 +92,36 @@ The system always creates exactly these 6 files in `.claude-knowledge/`:
 │   │   ├── 📄 check-context.md
 │   │   └── 📄 archive-knowledge.md
 │   ├── 📁 templates/
-│   │   ├── 📄 PROJECT_CONTEXT.template.md
-│   │   ├── 📊 ARCHITECTURE.mermaid.template
-│   │   ├── 📋 PROGRESS_TRACKER.template.md
-│   │   ├── 📝 IMPLEMENTATION_PLAN.template.md
-│   │   ├── 🔍 INVESTIGATION_FINDINGS.template.md
-│   │   └── 👀 REVIEW_FEEDBACK.template.md
-│   ├── 📄 config.json
-│   └── 📄 QUICK_START.md
+│   │   └── 📁 claude-knowledge-transfer/
+│   │       ├── 📄 PROJECT_CONTEXT.template.md
+│   │       ├── 📊 ARCHITECTURE.mermaid.template
+│   │       ├── 📋 PROGRESS_TRACKER.template.md
+│   │       ├── 📝 IMPLEMENTATION_PLAN.template.md
+│   │       ├── 🔍 INVESTIGATION_FINDINGS.template.md
+│   │       └── 👀 REVIEW_FEEDBACK.template.md
+│   └── 📁 claude-knowledge-transfer/
+│       ├── 📄 config.json
+│       └── 📄 QUICK_START.md
 ├── 📁 .claude-knowledge/           # Created by first use
 └── 📄 .gitignore                   # Updated automatically
 ```
 
 ## Template System
 
-The system uses a two-tier template system for maximum flexibility:
+The system uses templates stored in `.claude/templates/claude-knowledge-transfer/` (installed by the npm package).
 
-1. **Project Defaults**: `.claude/templates/` (installed by npm package)
-2. **Project Customizations**: `.claude-knowledge/templates/` (your customizations)
+This namespace approach ensures that multiple template systems can coexist in the same project without conflicts.
 
 ### Customizing Templates
 
 To customize templates for your project:
 
 ```bash
-# Copy default templates to customization directory
-mkdir -p .claude-knowledge/templates
-cp .claude/templates/* .claude-knowledge/templates/
-
-# Edit templates for your project's specific needs
-vim .claude-knowledge/templates/PROJECT_CONTEXT.template.md
+# Edit templates directly in the claude-knowledge-transfer directory
+vim .claude/templates/claude-knowledge-transfer/PROJECT_CONTEXT.template.md
 ```
 
-The system automatically prioritizes your customizations over the defaults.
+The commands will automatically use your customized templates when creating knowledge files.
 
 ## Team Collaboration
 
@@ -226,7 +223,7 @@ For consistent team setup, add to your `package.json`:
     "postinstall": "npx claude-knowledge-transfer"
   },
   "devDependencies": {
-    "claude-knowledge-transfer": "^1.0.0"
+    "claude-knowledge-transfer": "^1.1.0"
   }
 }
 ```
@@ -268,11 +265,10 @@ find . -name "*.bak" -path "*/.claude-knowledge/*"
 ### Template Issues?
 ```bash
 # Verify template locations
-ls -la .claude/templates/
-ls -la .claude-knowledge/templates/
+ls -la .claude/templates/claude-knowledge-transfer/
 
 # Check template syntax
-head .claude/templates/PROJECT_CONTEXT.template.md
+head .claude/templates/claude-knowledge-transfer/PROJECT_CONTEXT.template.md
 ```
 
 ## Advanced Usage
@@ -294,7 +290,7 @@ Create project-specific template standards:
 ```bash
 # In your project template repository
 npx claude-knowledge-transfer
-# Customize .claude/templates/ for your organization
+# Customize .claude/templates/claude-knowledge-transfer/ for your organization
 # Include .claude/ in your project template
 ```
 

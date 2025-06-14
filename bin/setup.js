@@ -12,10 +12,12 @@ const os = require('os');
 class ClaudeKnowledgeSetup {
   constructor() {
     this.projectRoot = process.cwd();
-    this.packageRoot = __dirname.replace('/bin', '');
+    this.packageRoot = path.join(__dirname, '..');
+    this.installableRoot = path.join(this.packageRoot, 'installable');
     this.claudeDir = path.join(this.projectRoot, '.claude');
     this.commandsDir = path.join(this.claudeDir, 'commands');
     this.templatesDir = path.join(this.claudeDir, 'templates');
+    this.systemDir = path.join(this.claudeDir, 'claude-knowledge-transfer');
   }
 
   log(message, type = 'info') {
@@ -38,11 +40,12 @@ class ClaudeKnowledgeSetup {
   copyFiles(srcDir, destDir, description) {
     this.ensureDirectoryExists(destDir);
     
-    const files = fs.readdirSync(path.join(this.packageRoot, srcDir));
+    const sourcePath = path.join(this.installableRoot, srcDir);
+    const files = fs.readdirSync(sourcePath);
     let copiedCount = 0;
 
     files.forEach(file => {
-      const srcFile = path.join(this.packageRoot, srcDir, file);
+      const srcFile = path.join(sourcePath, file);
       const destFile = path.join(destDir, file);
       
       if (fs.statSync(srcFile).isFile()) {
@@ -78,77 +81,29 @@ class ClaudeKnowledgeSetup {
   }
 
   createProjectConfig() {
-    const configPath = path.join(this.claudeDir, 'config.json');
-    const config = {
-      knowledgeTransfer: {
-        version: "1.0.2",
-        standardizedFiles: [
-          "PROJECT_CONTEXT.md",
-          "ARCHITECTURE.mermaid", 
-          "PROGRESS_TRACKER.md",
-          "IMPLEMENTATION_PLAN.md",
-          "INVESTIGATION_FINDINGS.md",
-          "REVIEW_FEEDBACK.md"
-        ],
-        templatePath: ".claude/templates/claude-knowledge-transfer/"
-      }
-    };
-
+    const configPath = path.join(this.systemDir, 'config.json');
+    const templatePath = path.join(this.installableRoot, 'docs', 'config.json.template');
+    
+    // Ensure our system directory exists
+    this.ensureDirectoryExists(this.systemDir);
+    
+    // Read template and customize for this project
+    const template = fs.readFileSync(templatePath, 'utf8');
+    const config = JSON.parse(template);
+    
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-    this.log('Created Claude configuration file');
+    this.log('Created Claude Knowledge Transfer configuration file');
   }
 
   createQuickStartGuide() {
-    const guidePath = path.join(this.claudeDir, 'QUICK_START.md');
-    const guide = `# Claude Knowledge Transfer - Quick Start
-
-## Available Commands
-
-Run these commands in Claude Code:
-
-\`\`\`bash
-# 1. Save context before compaction (at ~90% capacity)
-/project:initiate-knowledge-transfer
-
-# 2. After compaction, restore context  
-/project:retrieve-knowledge-transfer
-
-# 3. Verify context was restored correctly
-/project:check-context
-
-# 4. Archive important milestones (optional)
-/project:archive-knowledge
-\`\`\`
-
-## How It Works
-
-When you run \`/project:initiate-knowledge-transfer\`, it creates a \`.claude-knowledge/\` directory with these 6 files:
-
-- 📄 \`PROJECT_CONTEXT.md\` - Main project context and state
-- 📊 \`ARCHITECTURE.mermaid\` - Visual system architecture  
-- 📋 \`PROGRESS_TRACKER.md\` - Task completion tracking
-- 📝 \`IMPLEMENTATION_PLAN.md\` - Detailed implementation steps
-- 🔍 \`INVESTIGATION_FINDINGS.md\` - Research results and findings
-- 👀 \`REVIEW_FEEDBACK.md\` - Code review and optimization notes
-
-## Template System
-
-Templates are stored in \`.claude/templates/claude-knowledge-transfer/\` (installed by this package).
-
-To customize templates for your project, you can edit them directly in \`.claude/templates/claude-knowledge-transfer/\`.
-
-## Best Practices
-
-1. **Save Early**: Run knowledge transfer at ~90% capacity, not 95%
-2. **Commit Knowledge**: Include \`.claude-knowledge/\` in git commits
-3. **Team Consistency**: Customize templates for your project's needs
-4. **Regular Verification**: Use check-context to ensure continuity
-
-For full documentation, see: README.md
-`;
-
+    const guidePath = path.join(this.systemDir, 'QUICK_START.md');
+    const templatePath = path.join(this.installableRoot, 'docs', 'QUICK_START.md.template');
+    
+    // Copy template content
+    const guide = fs.readFileSync(templatePath, 'utf8');
+    
     fs.writeFileSync(guidePath, guide);
-    this.log('Created quick start guide');
+    this.log('Created Claude Knowledge Transfer quick start guide');
   }
 
   run() {
@@ -158,12 +113,10 @@ For full documentation, see: README.md
       // Create .claude directory structure
       this.ensureDirectoryExists(this.claudeDir);
       
-      // Copy commands and templates
+      // Copy commands and templates with namespace
       const commandCount = this.copyFiles('commands', this.commandsDir, 'commands');
-      
-      // Create templates subdirectory and copy claude-knowledge-transfer templates
       const claudeKnowledgeTemplatesDir = path.join(this.templatesDir, 'claude-knowledge-transfer');
-      const templateCount = this.copyFiles('templates/claude-knowledge-transfer', claudeKnowledgeTemplatesDir, 'templates');
+      const templateCount = this.copyFiles('templates', claudeKnowledgeTemplatesDir, 'templates');
       
       // Setup project configuration
       this.setupGitIgnore();
@@ -178,7 +131,7 @@ For full documentation, see: README.md
       this.log('⚙️  Created project configuration and quick start guide');
       this.log('', 'info');
       this.log('Next steps:', 'info');
-      this.log('1. Check .claude/QUICK_START.md for usage instructions');
+      this.log('1. Check .claude/claude-knowledge-transfer/QUICK_START.md for usage instructions');
       this.log('2. Commit the .claude/ directory to share with your team');
       this.log('3. Run /project:initiate-knowledge-transfer in Claude Code');
       this.log('', 'info');

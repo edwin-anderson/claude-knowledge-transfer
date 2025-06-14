@@ -1,6 +1,6 @@
 {
   "name": "claude-knowledge-transfer",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A standardized solution for preserving context across Claude Code's automatic compaction",
   "main": "index.js",
   "bin": {
@@ -21,10 +21,11 @@
   "author": "Edwin Anderson",
   "license": "MIT",
   "files": [
-    "commands/",
-    "templates/",
+    "installable/",
     "bin/",
-    "README.md"
+    "README.md",
+    "WORKFLOWS.md",
+    "SUMMARY.md"
   ],
   "engines": {
     "node": ">=12.0.0"

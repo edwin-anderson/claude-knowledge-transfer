@@ -1,0 +1,14 @@
+{
+  "knowledgeTransfer": {
+    "version": "1.1.0",
+    "standardizedFiles": [
+      "PROJECT_CONTEXT.md",
+      "ARCHITECTURE.mermaid", 
+      "PROGRESS_TRACKER.md",
+      "IMPLEMENTATION_PLAN.md",
+      "INVESTIGATION_FINDINGS.md",
+      "REVIEW_FEEDBACK.md"
+    ],
+    "templatePath": ".claude/templates/claude-knowledge-transfer/"
+  }
+}
