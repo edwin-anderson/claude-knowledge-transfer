@@ -50,12 +50,12 @@ try {
     '.claude/commands/retrieve-knowledge-transfer.md',
     '.claude/commands/check-context.md',
     '.claude/commands/archive-knowledge.md',
-    '.claude/templates/PROJECT_CONTEXT.template.md',
-    '.claude/templates/ARCHITECTURE.mermaid.template',
-    '.claude/templates/PROGRESS_TRACKER.template.md',
-    '.claude/templates/IMPLEMENTATION_PLAN.template.md',
-    '.claude/templates/INVESTIGATION_FINDINGS.template.md',
-    '.claude/templates/REVIEW_FEEDBACK.template.md'
+    '.claude/templates/claude-knowledge-transfer/PROJECT_CONTEXT.template.md',
+    '.claude/templates/claude-knowledge-transfer/ARCHITECTURE.mermaid.template',
+    '.claude/templates/claude-knowledge-transfer/PROGRESS_TRACKER.template.md',
+    '.claude/templates/claude-knowledge-transfer/IMPLEMENTATION_PLAN.template.md',
+    '.claude/templates/claude-knowledge-transfer/INVESTIGATION_FINDINGS.template.md',
+    '.claude/templates/claude-knowledge-transfer/REVIEW_FEEDBACK.template.md'
   ];
 
   let allGood = true;

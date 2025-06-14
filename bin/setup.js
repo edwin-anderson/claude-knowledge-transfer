@@ -81,7 +81,7 @@ class ClaudeKnowledgeSetup {
     const configPath = path.join(this.claudeDir, 'config.json');
     const config = {
       knowledgeTransfer: {
-        version: "1.0.0",
+        version: "1.0.2",
         standardizedFiles: [
           "PROJECT_CONTEXT.md",
           "ARCHITECTURE.mermaid", 
@@ -90,11 +90,7 @@ class ClaudeKnowledgeSetup {
           "INVESTIGATION_FINDINGS.md",
           "REVIEW_FEEDBACK.md"
         ],
-        templateSearchOrder: [
-          ".claude-knowledge/templates/",
-          ".claude/templates/",
-          "built-in"
-        ]
+        templatePath: ".claude/templates/claude-knowledge-transfer/"
       }
     };
 
@@ -137,18 +133,9 @@ When you run \`/project:initiate-knowledge-transfer\`, it creates a \`.claude-kn
 
 ## Template System
 
-Templates are stored in \`.claude/templates/\` (installed by this package).
+Templates are stored in \`.claude/templates/claude-knowledge-transfer/\` (installed by this package).
 
-To customize templates for your project:
-
-\`\`\`bash
-# Copy default templates to custom location (optional)
-mkdir -p .claude-knowledge/templates
-cp .claude/templates/* .claude-knowledge/templates/
-
-# Edit templates for your project's needs
-vim .claude-knowledge/templates/PROJECT_CONTEXT.template.md
-\`\`\`
+To customize templates for your project, you can edit them directly in \`.claude/templates/claude-knowledge-transfer/\`.
 
 ## Best Practices
 
@@ -173,7 +160,10 @@ For full documentation, see: README.md
       
       // Copy commands and templates
       const commandCount = this.copyFiles('commands', this.commandsDir, 'commands');
-      const templateCount = this.copyFiles('templates', this.templatesDir, 'templates');
+      
+      // Create templates subdirectory and copy claude-knowledge-transfer templates
+      const claudeKnowledgeTemplatesDir = path.join(this.templatesDir, 'claude-knowledge-transfer');
+      const templateCount = this.copyFiles('templates/claude-knowledge-transfer', claudeKnowledgeTemplatesDir, 'templates');
       
       // Setup project configuration
       this.setupGitIgnore();
@@ -184,7 +174,7 @@ For full documentation, see: README.md
       this.log('🎉 Claude Knowledge Transfer setup complete!', 'success');
       this.log('', 'info');
       this.log(`📁 Installed ${commandCount} commands in .claude/commands/`);
-      this.log(`📄 Installed ${templateCount} templates in .claude/templates/`);
+      this.log(`📄 Installed ${templateCount} templates in .claude/templates/claude-knowledge-transfer/`);
       this.log('⚙️  Created project configuration and quick start guide');
       this.log('', 'info');
       this.log('Next steps:', 'info');

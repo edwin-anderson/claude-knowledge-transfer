@@ -29,9 +29,8 @@ The command will always create exactly these 6 files in `.claude-knowledge/`:
 3. **Generate All 6 Standard Files**
 
    For each file, check for templates in this order:
-   1. `.claude-knowledge/templates/[filename].template.md` (if user created custom templates)
-   2. `.claude/templates/[filename].template.md` (project defaults from npm package)
-   3. Built-in structure (fallback if no templates found)
+   1. `.claude/templates/claude-knowledge-transfer/[filename].template.md` (project templates from npm package)
+   2. Built-in structure (fallback if no templates found)
 
    **Always create these exact files:**
 
@@ -116,8 +115,7 @@ The command will always create exactly these 6 files in `.claude-knowledge/`:
 
 ## Template Usage
 
-When templates exist, use them as the structure and fill in the specific content. Templates are searched in this order:
-- `.claude-knowledge/templates/[FILENAME].template.md` (user custom templates - optional)
-- `.claude/templates/[FILENAME].template.md` (project defaults from npm package)
+When templates exist, use them as the structure and fill in the specific content. Templates are located in:
+- `.claude/templates/claude-knowledge-transfer/[FILENAME].template.md` (project templates from npm package)
 
-Note: The `.claude-knowledge/templates/` directory is only used if you manually create custom templates. By default, the system uses templates from `.claude/templates/`.
+If no templates are found, the system uses built-in structure definitions.
