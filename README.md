@@ -63,14 +63,14 @@ This automatically creates a `.claude/` directory in your project with:
 #### Initiating Knowledge Transfer
 When you run `/project:initiate-knowledge-transfer`, Claude spawns 6 parallel sub-agents:
 
-![Initiate Knowledge Transfer](screenshots/initiate-knowledge-transfer.png)
+![Initiate Knowledge Transfer](https://raw.githubusercontent.com/edwin-anderson/claude-knowledge-transfer/main/screenshots/initiate-knowledge-transfer.png)
 
 Each sub-agent generates one knowledge file simultaneously, using only 2-4% of context.
 
 #### Retrieving Knowledge After Compaction
 When you run `/project:retrieve-knowledge-transfer`, Claude restores all context:
 
-![Retrieve Knowledge Transfer](screenshots/retrieve-knowledge-transfer.png)
+![Retrieve Knowledge Transfer](https://raw.githubusercontent.com/edwin-anderson/claude-knowledge-transfer/main/screenshots/retrieve-knowledge-transfer.png)
 
 The command now works from any subdirectory in your project!
 
