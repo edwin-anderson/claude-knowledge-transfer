@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2025-06-25
+
+### Fixed
+- Help command now uses imperative instructions that Claude will execute
+- Parallel execution now truly runs all 6 tasks simultaneously
+- Removed duplicate ARCHITECTURE.mermaid task generation
+- Added explicit instructions for parallel task execution
+
+### Changed
+- Restructured help-knowledge-transfer.md to be action-oriented
+- Updated initiate-knowledge-transfer.md to ensure parallel execution in single response
+
 ## [2.0.0] - 2025-06-25
 
 ### Added
