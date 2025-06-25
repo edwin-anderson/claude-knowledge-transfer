@@ -182,15 +182,7 @@ Critical: Write detailed, actionable content based on the context package. Do no
 - Do NOT read or verify the generated files
 - Trust that sub-agents completed their tasks
 
-### 5. Setup Git Integration
-
-Ensure `.gitignore` includes:
-```
-# Claude Knowledge Transfer temporary files
-.claude-knowledge/tmp/
-```
-
-### 6. Provide Summary
+### 5. Provide Summary
 
 Show the user (without reading files):
 ```

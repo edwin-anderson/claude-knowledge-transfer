@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.6] - 2025-06-25
+
+### Fixed
+- **Performance**: Removed unnecessary .gitignore file reading during knowledge transfer
+- Eliminated "File does not exist" errors for .gitignore files at various directory levels
+- Knowledge transfer now focuses only on creating knowledge files without git management
+
+### Changed
+- Removed "Setup Git Integration" section from initiate-knowledge-transfer command
+- Git setup is handled during npm package installation, not during knowledge transfer
+- Cleaner, faster knowledge transfer process
+
 ## [2.0.5] - 2025-06-25
 
 ### Fixed
