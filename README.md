@@ -42,6 +42,19 @@ This automatically creates a `.claude/` directory in your project with:
 - 6 standardized templates for consistent knowledge files
 - Project configuration and quick start guide
 
+### ⚠️ Required Setup: Compaction Rules
+
+**CRITICAL for optimal performance**: Add compaction rules to your project's `CLAUDE.md` file to maintain the 2-4% context efficiency.
+
+```bash
+# Copy the compaction rules to your project's CLAUDE.md
+cat node_modules/claude-knowledge-transfer/CLAUDE_COMPACTION_RULES.md
+```
+
+**Why this matters**: Without these rules, Claude Code may include sub-agent conversations during compaction, consuming 60-100x more context than intended and defeating the efficiency benefits.
+
+**Quick setup**: Copy the "Compaction Instructions" section from `CLAUDE_COMPACTION_RULES.md` and paste it into your project's `CLAUDE.md` file. See the file for detailed instructions and optimal placement.
+
 ### Basic Workflow
 
 ```bash
@@ -285,6 +298,20 @@ If it still can't find the knowledge base:
 - Ensure `.claude-knowledge/` exists at your project root
 - Check you're within the project directory tree
 - Run `ls -la` at project root to verify
+
+### Knowledge Transfer Not Efficient / High Context Usage?
+If you notice knowledge transfer consuming much more than 2-4% context:
+```bash
+# Check if you've added the compaction rules to CLAUDE.md
+cat CLAUDE.md | grep -A 10 "Compaction Instructions"
+
+# If missing, copy the rules from the package
+cat node_modules/claude-knowledge-transfer/CLAUDE_COMPACTION_RULES.md
+```
+
+**Common cause**: Missing compaction rules in `CLAUDE.md` causes Claude Code to include sub-agent conversations during compaction, consuming 60-100x more context than intended.
+
+**Solution**: Copy the "Compaction Instructions" section from `CLAUDE_COMPACTION_RULES.md` into your project's `CLAUDE.md` file.
 
 ### Missing Knowledge Files?
 ```bash

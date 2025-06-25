@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.7] - 2025-06-25
+
+### Added
+- **CLAUDE_COMPACTION_RULES.md** - New file with copy-pasteable compaction rules for optimal performance
+- Critical setup documentation for maintaining 2-4% context efficiency
+- Compaction troubleshooting section in README
+
+### Changed
+- **BREAKING**: Compaction rules are now required in project CLAUDE.md for optimal performance
+- Enhanced README with prominent compaction setup instructions
+- Added performance troubleshooting section for high context usage issues
+
+### Fixed
+- **Critical Performance Issue**: Documented solution for compaction including sub-agent conversations
+- Without proper CLAUDE.md rules, compaction was consuming 60-100x more context than intended
+- Added clear instructions to prevent compaction from defeating parallel sub-agent efficiency
+
 ## [2.0.6] - 2025-06-25
 
 ### Fixed

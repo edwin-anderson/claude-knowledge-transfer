@@ -1,6 +1,6 @@
 {
   "name": "claude-knowledge-transfer",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "A standardized solution for preserving context across Claude Code's automatic compaction",
   "main": "index.js",
   "bin": {
@@ -25,7 +25,8 @@
     "bin/",
     "README.md",
     "WORKFLOWS.md",
-    "SUMMARY.md"
+    "SUMMARY.md",
+    "CLAUDE_COMPACTION_RULES.md"
   ],
   "engines": {
     "node": ">=12.0.0"
