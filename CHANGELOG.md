@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.5] - 2025-06-25
+
+### Fixed
+- **Critical**: Much stronger enforcement of restoration priority - Claude now refuses any task until restoration
+- Improved search algorithm with explicit bash commands for finding .claude-knowledge
+- Added clear "STOP" warnings and mandatory behavior rules
+- Better handling when .claude-knowledge is at project root level
+- More explicit instructions to prevent Claude from helping before restoration
+
+### Changed
+- Added "What NOT to Do" section with clear ❌ and ✅ indicators
+- First message now immediately shows restoration is required
+- Search uses more efficient bash commands (find, grep)
+- Clearer PROJECT_ROOT variable usage throughout
+
 ## [2.0.4] - 2025-06-25
 
 ### Fixed

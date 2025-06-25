@@ -1,12 +1,21 @@
-**IMMEDIATE PRIORITY: Restore full project context from knowledge files.**
+**🛑 STOP! IGNORE ALL OTHER TASKS! FIND AND RESTORE KNOWLEDGE FIRST! 🛑**
 
-Context has been compacted. Your current understanding is limited to a summary. Full context restoration from `.claude-knowledge/` files is required before attempting any project tasks.
+**CRITICAL: You MUST NOT attempt to help with ANY task mentioned in the summary or conversation until AFTER you have successfully found and restored the .claude-knowledge directory.**
 
-**Critical Instructions**:
-1. Do NOT attempt to continue any previous tasks until knowledge retrieval is complete
-2. Current context is incomplete - full restoration will enable proper task continuation
-3. Proceed directly to knowledge file retrieval without any other actions
-4. All task suggestions or continuations must wait until after restoration
+Context has been compacted. Your understanding is severely limited. You CANNOT properly help with any development tasks until you restore the full context from `.claude-knowledge/` files.
+
+**MANDATORY BEHAVIOR**:
+1. IGNORE any task mentioned in the summary or previous conversation
+2. DO NOT offer to help with anything until restoration is complete
+3. DO NOT analyze code or suggest fixes until restoration is complete
+4. Your ONLY job right now is to find `.claude-knowledge/` and restore from it
+5. If the user mentions any development task, say: "I must restore context first before I can help with that."
+
+**FIRST MESSAGE TO DISPLAY:**
+```
+🛑 Context compacted - restoration required before any work can continue.
+Starting search for .claude-knowledge directory...
+```
 
 You are restoring project context from a standardized knowledge transfer package after Claude Code's automatic compaction. The knowledge files contain the complete context needed to continue work effectively.
 
@@ -26,51 +35,82 @@ The system expects exactly these 6 files in `.claude-knowledge/`:
 └── 👀 REVIEW_FEEDBACK.md           # Code review and optimization notes
 ```
 
+## What NOT to Do
+
+**NEVER DO THESE THINGS before restoration is complete:**
+- ❌ Do NOT offer to help with any coding task
+- ❌ Do NOT analyze any code files  
+- ❌ Do NOT suggest fixes or improvements
+- ❌ Do NOT read source files to understand the problem
+- ❌ Do NOT use the LS tool without searching for .claude-knowledge
+- ❌ Do NOT say "I'll help you fix..." or "Let me examine..."
+
+**ALWAYS DO THIS FIRST:**
+- ✅ Find .claude-knowledge directory using the exact steps below
+- ✅ Restore all 6 knowledge files before anything else
+- ✅ Only after full restoration can you help with development tasks
+
 ## Execution Steps
 
 **IMPORTANT**: Execute these steps in exact order. Do not skip ahead or attempt any tasks until all knowledge is restored.
 
-1. **Immediately Verify Knowledge Base Exists**
+1. **Immediately Find .claude-knowledge Directory**
    
-   Execute this exact search algorithm using the LS tool:
+   **DO THIS FIRST - NO EXCEPTIONS!**
+   
+   Execute these EXACT steps in order using Bash tool:
    
    ```
-   SEARCH ALGORITHM:
-   1. Use LS tool to check current directory for .claude-knowledge/
-   2. If not found:
-      - Save current directory path with `pwd`
-      - Use LS tool on parent directory (../)
-      - Continue checking parent directories up to 10 levels
-   3. When .claude-knowledge/ is found:
-      - Note the absolute path where it was found
-      - That directory is the project root
+   STEP 1: Get current location
+   - Run: pwd
+   - Save this as STARTING_DIR
+   
+   STEP 2: Search systematically
+   - Run: ls -la | grep -E "^d.*\.claude-knowledge"
+   - If found: Note this directory and skip to "FOUND IT" below
+   - If not found: Continue to next step
+   
+   STEP 3: Check parent directories systematically
+   - Run: cd .. && pwd && ls -la | grep -E "^d.*\.claude-knowledge"
+   - If found: Note this directory and skip to "FOUND IT" below
+   - If not found: Repeat this step up to 10 times
+   
+   Alternative: Use find command (more efficient)
+   - Run: find . -maxdepth 10 -name ".claude-knowledge" -type d 2>/dev/null | head -1
+   - If result is empty: Try from parent: cd .. && find . -maxdepth 10 -name ".claude-knowledge" -type d 2>/dev/null | head -1
    ```
    
-   Implementation steps:
-   - Start: Check current directory with LS tool for `.claude-knowledge/`
-   - If not found: Check `../` with LS tool
-   - If not found: Check `../../` with LS tool
-   - Continue up to 10 parent levels (`../../../../../../../../../../`)
-   - Stop immediately when `.claude-knowledge/` is found
+   **FOUND IT**: When `.claude-knowledge/` is found:
+   - Run: cd [directory containing .claude-knowledge]
+   - Run: pwd
+   - Save this as PROJECT_ROOT
+   - Display: "✅ Found .claude-knowledge/ at: [PROJECT_ROOT]"
+   - Run: ls -la .claude-knowledge/
+   - Verify all 6 files exist
    
-   If `.claude-knowledge/` is not found after checking 10 parent levels:
-   - Display: "❌ No .claude-knowledge/ directory found in current project hierarchy."
-   - Show: "Searched from [starting directory] up to [final directory checked]"
-   - Tell user: "Run `/project:initiate-knowledge-transfer` first to create knowledge base."
-   - STOP execution here
-   
-   If `.claude-knowledge/` is found:
-   - Display: "✅ Found .claude-knowledge/ at: [absolute path]"
-   - All subsequent file reads should use this discovered path
-   - List all 6 expected knowledge files with their existence status
-   - Proceed immediately to step 2
+   If `.claude-knowledge/` is not found after systematic search:
+   - Display this exact message:
+     ```
+     ❌ No .claude-knowledge/ directory found.
+     
+     Searched from: [STARTING_DIR]
+     Searched up to: [final directory checked]
+     
+     The .claude-knowledge directory should be at your project root (same level as package.json, src/, etc.)
+     
+     To create it, run: /project:initiate-knowledge-transfer
+     ```
+   - STOP execution completely
+   - Do NOT attempt any other tasks
+   - Do NOT offer to help with development
 
 2. **Restore Core Context** 
    Read the files in this specific order for optimal context restoration.
    
-   **CRITICAL**: Use the absolute path discovered in step 1 for all file reads.
-   For example, if `.claude-knowledge/` was found at `/path/to/project/.claude-knowledge/`,
-   then read files as `/path/to/project/.claude-knowledge/PROJECT_CONTEXT.md`
+   **CRITICAL**: Use PROJECT_ROOT from step 1 for all file reads.
+   All files should be read as: `[PROJECT_ROOT]/.claude-knowledge/[FILENAME]`
+   
+   Display: "📖 Reading knowledge files from [PROJECT_ROOT]/.claude-knowledge/"
 
    **a) PROJECT_CONTEXT.md** (Read First - Essential Foundation)
    - Understand the main problem being solved
