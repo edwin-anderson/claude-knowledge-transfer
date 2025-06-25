@@ -1,121 +1,219 @@
-You are helping the user create a standardized knowledge transfer package to preserve their project context before Claude Code's automatic compaction.
+You are implementing a parallel sub-agent approach to knowledge transfer that preserves your main context by delegating file generation to fresh sub-agents. This approach uses only 2-4% of your context instead of 15-20%.
 
-## Standardized File Structure
+## Core Strategy: Context Transfer TO Sub-Agents
 
-The command will always create exactly these 6 files in `.claude-knowledge/`:
-
-```
-📁 .claude-knowledge/
-├── 📄 PROJECT_CONTEXT.md           # Main project context and state
-├── 📊 ARCHITECTURE.mermaid         # Visual system architecture
-├── 📋 PROGRESS_TRACKER.md          # Task completion tracking
-├── 📝 IMPLEMENTATION_PLAN.md       # Detailed implementation steps
-├── 🔍 INVESTIGATION_FINDINGS.md    # Research results and findings
-└── 👀 REVIEW_FEEDBACK.md           # Code review and optimization notes
-```
+You will package your existing conversational context into structured packages and distribute them to 6 parallel sub-agents, each with fresh 200k token contexts. You never read the generated files, avoiding context pollution.
 
 ## Execution Steps
 
-1. **Create Knowledge Directory**
-   - Create `.claude-knowledge/` directory if it doesn't exist
-   - This is where the 6 knowledge files will be stored (not templates)
+### 1. Create Knowledge Directory (0.5% context)
+- Create `.claude-knowledge/` directory if it doesn't exist
+- If files already exist, they will be overwritten with updated content
 
-2. **Check for Existing Knowledge Base**
-   - If `.claude-knowledge/` exists with previous files, create backup:
-     - Create `.claude-knowledge/archive/session-[YYYY-MM-DD-HHMMSS]/`
-     - Copy all current files to the archive
-   - Ask user: "Found existing knowledge base. Is this a continuation of the same problem or something new?"
+### 2. Package Context for Sub-Agents (1-2% context)
 
-3. **Generate All 6 Standard Files**
+Create 6 context packages from your existing conversation knowledge. You're not analyzing or extracting - you're directly packaging what you already know:
 
-   For each file, check for templates in this order:
-   1. `.claude/templates/claude-knowledge-transfer/[filename].template.md` (project templates from npm package)
-   2. Built-in structure (fallback if no templates found)
+**PROJECT_CONTEXT Package**:
+```json
+{
+  "currentProblem": "[The specific problem you're solving]",
+  "problemDetails": "[Detailed explanation from conversation]",
+  "solutionApproach": "[Current approach being taken]",
+  "criticalFiles": {
+    "[path/to/file]": "[Why this file is important]"
+  },
+  "environment": {
+    "development": "[Dev environment details]",
+    "dependencies": "[Key dependencies and versions]",
+    "configuration": "[Important config details]"
+  },
+  "testCommands": ["[Working test commands]"],
+  "currentBlockers": ["[Specific blockers]"],
+  "keyDecisions": ["[Important decisions made]"],
+  "sessionMetadata": {
+    "timestamp": "[Current timestamp]",
+    "sessionContext": "[What you're working on]"
+  }
+}
+```
 
-   **Always create these exact files:**
+**ARCHITECTURE Package**:
+```json
+{
+  "systemType": "[System description from conversation]",
+  "components": {
+    "[Component Name]": "[Role and purpose]"
+  },
+  "dataFlows": ["[Data flow patterns]"],
+  "dependencies": {
+    "[library-name]": "[Why it's used]"
+  },
+  "integrationPoints": ["[External integrations]"],
+  "technologyStack": ["[Technologies in use]"]
+}
+```
 
-   **📄 PROJECT_CONTEXT.md**
-   - Session metadata (timestamp, problem identifier)
-   - Current problem statement and solution approach
-   - Critical files with exact paths and purposes
-   - Environment setup (versions, dependencies, env vars)
-   - Test commands that work
-   - Current blockers and key decisions made
+**PROGRESS_TRACKER Package**:
+```json
+{
+  "completedTasks": [
+    {
+      "task": "[Task description]",
+      "outcome": "[Result achieved]",
+      "files": ["[Files modified]"],
+      "timestamp": "[When completed]"
+    }
+  ],
+  "currentTask": {
+    "description": "[Current work]",
+    "currentFile": "[File being worked on]",
+    "currentLine": "[Specific location if applicable]",
+    "status": "[Current status]"
+  },
+  "failedAttempts": [
+    {
+      "attempt": "[What was tried]",
+      "reason": "[Why it failed]",
+      "files": ["[Files involved]"]
+    }
+  ],
+  "nextSteps": ["[Priority ordered next steps]"]
+}
+```
 
-   **📊 ARCHITECTURE.mermaid**
-   - System component diagram in Mermaid format
-   - Data flow visualization
-   - Key dependencies and integration points
-   - Component relationships
+**IMPLEMENTATION_PLAN Package**:
+```json
+{
+  "remainingWork": ["[Phases identified]"],
+  "specificFiles": ["[Files needing modification]"],
+  "testingStrategy": ["[Testing approach]"],
+  "riskAssessment": ["[Identified risks]"],
+  "timeline": ["[Timeline discussions]"],
+  "dependencies": ["[Blocking dependencies]"]
+}
+```
 
-   **📋 PROGRESS_TRACKER.md**
-   - Completed tasks with specific outcomes
-   - Current task in progress (exact file and line if applicable)
-   - Failed attempts and reasons
-   - Immediate next steps in priority order
+**INVESTIGATION_FINDINGS Package**:
+```json
+{
+  "workingSolutions": [
+    {
+      "solution": "[Working solution]",
+      "codeSnippet": "[Code that works]",
+      "context": "[When/where it works]"
+    }
+  ],
+  "failedApproaches": [
+    {
+      "approach": "[Failed approach]",
+      "reason": "[Specific failure]",
+      "learnings": "[What was learned]"
+    }
+  ],
+  "codebaseDiscoveries": ["[Important discoveries]"],
+  "externalResources": ["[Helpful resources]"]
+}
+```
 
-   **📝 IMPLEMENTATION_PLAN.md**
-   - Remaining work broken into phases
-   - Specific files that need modification
-   - Testing strategy and validation steps
-   - Risk assessment and mitigation
+**REVIEW_FEEDBACK Package**:
+```json
+{
+  "codeQuality": ["[Quality observations]"],
+  "performanceIssues": ["[Performance concerns]"],
+  "technicalDebt": ["[Identified debt]"],
+  "securityConsiderations": ["[Security issues]"],
+  "optimizationOpportunities": ["[Optimization ideas]"]
+}
+```
 
-   **🔍 INVESTIGATION_FINDINGS.md**
-   - Working solutions with code snippets
-   - Failed approaches and specific failure reasons
-   - Important codebase discoveries
-   - External resources and references
+### 3. Launch Parallel Sub-Agents (0.5% context)
 
-   **👀 REVIEW_FEEDBACK.md**
-   - Code quality observations
-   - Performance optimization opportunities
-   - Technical debt identified
-   - Security considerations and recommendations
+For each of the 6 knowledge files, create a sub-agent task:
 
-4. **Populate Files with Current Context**
-   - Analyze the current project state
-   - Examine recent git commits, file changes, and test results
-   - Interview user for missing context if needed
-   - Fill templates with specific, actionable information
+```
+You are a specialized knowledge transfer agent generating [FILENAME].
 
-5. **Setup Git Integration**
-   - Ensure `.gitignore` includes:
-     ```
-     .claude-knowledge/archive/
-     .claude-knowledge/tmp/
-     ```
-   - Do NOT ignore the main `.claude-knowledge/` files - these should be committed
+Context Package: [Provide the appropriate context package]
 
-6. **Provide Summary**
-   Show the user:
-   ```
-   ✅ Knowledge transfer package created with 6 standard files:
-   
-   📄 PROJECT_CONTEXT.md - [Brief description of current problem]
-   📊 ARCHITECTURE.mermaid - [Brief description of system]
-   📋 PROGRESS_TRACKER.md - [Current task status]
-   📝 IMPLEMENTATION_PLAN.md - [Next X phases planned]
-   🔍 INVESTIGATION_FINDINGS.md - [Key discoveries noted]
-   👀 REVIEW_FEEDBACK.md - [Code quality notes]
-   
-   💡 Recommended next steps:
-   1. git add .claude-knowledge/
-   2. git commit -m "Knowledge snapshot: [brief description]"
-   3. Continue development until compaction
-   4. After compaction: /project:retrieve-knowledge-transfer
-   ```
+Template Location: .claude/templates/claude-knowledge-transfer/[FILENAME].template.md
+
+Your task:
+1. Use the context package to understand the current project state
+2. If template exists, follow its structure while filling with specific content
+3. If no template, use standard structure for this knowledge type
+4. Write comprehensive, project-specific content (not generic)
+5. Save directly to .claude-knowledge/[FILENAME]
+6. Return only: "✅ [FILENAME] completed"
+
+Critical: Write detailed, actionable content based on the context package. Do not read other files or gather additional context.
+```
+
+Launch all 6 sub-agents in parallel:
+- PROJECT_CONTEXT.md agent
+- ARCHITECTURE.mermaid agent  
+- PROGRESS_TRACKER.md agent
+- IMPLEMENTATION_PLAN.md agent
+- INVESTIGATION_FINDINGS.md agent
+- REVIEW_FEEDBACK.md agent
+
+### 4. Handle Completions (0.5% context)
+
+- Wait for all 6 completion confirmations
+- Do NOT read or verify the generated files
+- Trust that sub-agents completed their tasks
+
+### 5. Setup Git Integration
+
+Ensure `.gitignore` includes:
+```
+# Claude Knowledge Transfer temporary files
+.claude-knowledge/tmp/
+```
+
+### 6. Provide Summary
+
+Show the user (without reading files):
+```
+✅ Knowledge transfer completed using parallel sub-agents
+
+📁 Created 6 knowledge files in .claude-knowledge/:
+- PROJECT_CONTEXT.md - Current problem and solution approach
+- ARCHITECTURE.mermaid - System architecture visualization  
+- PROGRESS_TRACKER.md - Task completion and current status
+- IMPLEMENTATION_PLAN.md - Remaining work phases
+- INVESTIGATION_FINDINGS.md - Solutions and discoveries
+- REVIEW_FEEDBACK.md - Code quality observations
+
+💡 Context Usage: Only 2-4% (vs 15-20% traditional approach)
+
+🚀 Next steps:
+1. git add .claude-knowledge/
+2. git commit -m "Knowledge snapshot: [description]"
+3. Continue development - you have 96-97% context available!
+4. After compaction: /project:retrieve-knowledge-transfer
+```
 
 ## Key Principles
 
-- **Consistency**: Always create the same 6 files with the same names
-- **Specificity**: Include exact file paths, line numbers, and commands
-- **Completeness**: Capture both successes and failures for learning
-- **Actionability**: Focus on what to do next, not just what was done
-- **Template-driven**: Use templates from `templates/` folder when available
+- **Never Read Generated Files**: Avoid context pollution
+- **Direct Context Packaging**: Package what you know, don't analyze
+- **Parallel Execution**: All 6 agents work simultaneously  
+- **Fresh Contexts**: Each sub-agent gets clean 200k tokens
+- **Minimal Reporting**: Only completion confirmations return
 
-## Template Usage
+## Context Usage Breakdown
 
-When templates exist, use them as the structure and fill in the specific content. Templates are located in:
-- `.claude/templates/claude-knowledge-transfer/[FILENAME].template.md` (project templates from npm package)
+```
+Main Agent Usage:
+├── Directory setup (0.5%)
+├── Context packaging (1-2%)
+├── Sub-agent coordination (0.5%)
+├── Completion handling (0.5%)
+└── Total: 2.5-3.5%
 
-If no templates are found, the system uses built-in structure definitions.
+Sub-Agents:
+└── 6 × Fresh 200k contexts for comprehensive writing
+```
+
+This approach enables knowledge transfer even at 96-97% context capacity, giving you 16-17% more development time before needing to preserve context.

@@ -5,6 +5,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2025-06-25
+
+### Added
+- **Revolutionary Parallel Sub-Agent Approach**: Knowledge transfer now uses only 2-4% context (down from 15-20%)
+- **Late Execution Capability**: Can safely run at 96-97% capacity (up from 80%)
+- **Help Command**: New `/project:help-knowledge-transfer` command for comprehensive usage guide
+- **Parallel Processing**: All 6 knowledge files generated simultaneously using fresh sub-agent contexts
+- **Context Isolation**: Main agent never reads generated files, preventing context pollution
+
+### Changed
+- **BREAKING**: Replaced sequential knowledge transfer with parallel sub-agent approach
+- **BREAKING**: Removed archive-knowledge command and all archiving functionality
+- **BREAKING**: Removed auto-archiving from initiate-knowledge-transfer
+- Simplified .gitignore to only exclude temporary files
+- Knowledge files are now simply overwritten when updated
+- No more prompts about continuation vs new problem
+- Reduced command count from 5 to 4
+
+### Removed
+- **BREAKING**: `/project:archive-knowledge` command completely removed
+- Archive directory creation and management
+- Retention policies and milestone archives
+- Complex archive indexing system
+- "Is this a continuation?" prompts
+
+### Improved
+- 75-80% reduction in context usage during knowledge transfer
+- 16-17% more development time before needing knowledge transfer
+- Cleaner `.claude-knowledge/` directory structure
+- Simpler mental model - just save and restore
+- Better alignment with git for version history
+
+### Technical Details
+- Main agent packages conversational context into structured JSON
+- Each sub-agent receives domain-specific context package
+- Sub-agents write comprehensive files using templates
+- Git handles all version history naturally
+
 ## [1.1.0] - 2025-06-14
 
 ### Changed

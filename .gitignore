@@ -37,3 +37,7 @@ dist/
 # Environment files
 .env
 .env.local
+
+# Claude Knowledge Transfer
+.claude-knowledge/archive/
+.claude-knowledge/tmp/

@@ -62,15 +62,14 @@ class ClaudeKnowledgeSetup {
     const gitignorePath = path.join(this.projectRoot, '.gitignore');
     const ignoreEntries = [
       '',
-      '# Claude Knowledge Transfer',
-      '.claude-knowledge/archive/',
+      '# Claude Knowledge Transfer temporary files',
       '.claude-knowledge/tmp/',
       ''
     ].join('\n');
 
     if (fs.existsSync(gitignorePath)) {
       const content = fs.readFileSync(gitignorePath, 'utf8');
-      if (!content.includes('.claude-knowledge/archive/')) {
+      if (!content.includes('.claude-knowledge/tmp/')) {
         fs.appendFileSync(gitignorePath, ignoreEntries);
         this.log('Added knowledge transfer entries to .gitignore');
       }

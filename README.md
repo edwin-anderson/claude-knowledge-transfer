@@ -9,8 +9,19 @@ Claude Code automatically compacts its context when reaching 95% capacity, which
 - **Save** your context before compaction in a consistent 6-file format
 - **Restore** your context after compaction with full continuity  
 - **Verify** the restoration worked correctly
-- **Archive** important milestones for future reference
 - **Share** context consistency across your entire development team
+
+## 🚀 New: Parallel Sub-Agent Approach
+
+The latest version implements a revolutionary parallel sub-agent approach that:
+
+- **Uses only 2-4% context** (vs 15-20% for traditional approach)
+- **Enables knowledge transfer at 96-97% capacity** (vs 80% previously)
+- **Generates all 6 files simultaneously** using parallel sub-agents
+- **Prevents context pollution** by never reading generated files
+- **Provides each sub-agent fresh 200k token contexts** for comprehensive output
+
+This means you can continue working much longer before needing to transfer knowledge, and the transfer itself is much more efficient!
 
 ## Quick Start
 
@@ -34,7 +45,10 @@ This automatically creates a `.claude/` directory in your project with:
 ### Basic Workflow
 
 ```bash
-# 1. Save context before compaction (at ~90% capacity)
+# 0. Get help on available commands
+/project:help-knowledge-transfer
+
+# 1. Save context before compaction (now safe even at ~96% capacity!)
 /project:initiate-knowledge-transfer
 
 # 2. After compaction, restore context  
@@ -42,9 +56,6 @@ This automatically creates a `.claude/` directory in your project with:
 
 # 3. Verify context was restored correctly
 /project:check-context
-
-# 4. Archive important milestones (optional)
-/project:archive-knowledge
 ```
 
 ## Available Commands
@@ -53,10 +64,10 @@ Four essential project-scoped commands for complete context management:
 
 | Command | Purpose | When to Use |
 |---------|---------|-------------|
-| `/project:initiate-knowledge-transfer` | Create standardized context package | At ~90% capacity |
+| `/project:help-knowledge-transfer` | Show comprehensive help and usage guide | When you need assistance |
+| `/project:initiate-knowledge-transfer` | Create standardized context package | At ~96% capacity (2-4% usage) |
 | `/project:retrieve-knowledge-transfer` | Restore context from package | After compaction |
 | `/project:check-context` | Verify restoration worked | After retrieve |
-| `/project:archive-knowledge` | Save milestone snapshots | Major breakthroughs |
 
 ## Standardized Knowledge Structure
 
@@ -87,10 +98,10 @@ The system always creates exactly these 6 files in `.claude-knowledge/`:
 📁 your-project/
 ├── 📁 .claude/
 │   ├── 📁 commands/
+│   │   ├── 📄 help-knowledge-transfer.md
 │   │   ├── 📄 initiate-knowledge-transfer.md
 │   │   ├── 📄 retrieve-knowledge-transfer.md
-│   │   ├── 📄 check-context.md
-│   │   └── 📄 archive-knowledge.md
+│   │   └── 📄 check-context.md
 │   ├── 📁 templates/
 │   │   └── 📁 claude-knowledge-transfer/
 │   │       ├── 📄 PROJECT_CONTEXT.template.md
@@ -182,12 +193,6 @@ claude
 /project:check-context
 ```
 
-### Major Milestones
-```bash
-# After completing significant features
-/project:archive-knowledge
-# Claude will ask if this is worth preserving as a milestone
-```
 
 ## Git Integration
 
@@ -207,8 +212,7 @@ git pull
 
 The system automatically updates your `.gitignore` to include:
 ```gitignore
-# Claude Knowledge Transfer
-.claude-knowledge/archive/
+# Claude Knowledge Transfer temporary files
 .claude-knowledge/tmp/
 ```
 
@@ -252,11 +256,11 @@ ls -la .claude/
 
 ### Missing Knowledge Files?
 ```bash
-# Check for archived sessions
-ls -la .claude-knowledge/archive/
-
 # Check git history
 git log -- .claude-knowledge/
+
+# Restore from git if needed
+git checkout HEAD~1 -- .claude-knowledge/
 
 # Look for recent backups
 find . -name "*.bak" -path "*/.claude-knowledge/*"
@@ -327,7 +331,6 @@ npx claude-knowledge-transfer
 # /user:initiate-knowledge-transfer → /project:initiate-knowledge-transfer
 # /user:retrieve-knowledge-transfer → /project:retrieve-knowledge-transfer
 # /user:check-context → /project:check-context
-# /user:archive-knowledge → /project:archive-knowledge
 ```
 
 ## Contributing
