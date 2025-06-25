@@ -58,6 +58,22 @@ This automatically creates a `.claude/` directory in your project with:
 /project:check-context
 ```
 
+### Visual Examples
+
+#### Initiating Knowledge Transfer
+When you run `/project:initiate-knowledge-transfer`, Claude spawns 6 parallel sub-agents:
+
+![Initiate Knowledge Transfer](screenshots/initiate-knowledge-transfer.png)
+
+Each sub-agent generates one knowledge file simultaneously, using only 2-4% of context.
+
+#### Retrieving Knowledge After Compaction
+When you run `/project:retrieve-knowledge-transfer`, Claude restores all context:
+
+![Retrieve Knowledge Transfer](screenshots/retrieve-knowledge-transfer.png)
+
+The command now works from any subdirectory in your project!
+
 ## Available Commands
 
 Four essential project-scoped commands for complete context management:
@@ -253,6 +269,22 @@ ls -la .claude/
 # If unclear, try retrieving again
 /project:retrieve-knowledge-transfer
 ```
+
+### Retrieve Command Can't Find Knowledge Base?
+The retrieve command now searches up to 10 parent directories for `.claude-knowledge/`:
+```bash
+# Works from any subdirectory
+cd src/components/deep/nested/folder
+/project:retrieve-knowledge-transfer
+
+# The command will search upward and find the knowledge base at project root
+# Shows: "✅ Found .claude-knowledge/ at: /path/to/project/.claude-knowledge/"
+```
+
+If it still can't find the knowledge base:
+- Ensure `.claude-knowledge/` exists at your project root
+- Check you're within the project directory tree
+- Run `ls -la` at project root to verify
 
 ### Missing Knowledge Files?
 ```bash

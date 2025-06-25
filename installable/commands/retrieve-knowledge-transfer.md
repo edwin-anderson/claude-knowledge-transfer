@@ -31,15 +31,46 @@ The system expects exactly these 6 files in `.claude-knowledge/`:
 **IMPORTANT**: Execute these steps in exact order. Do not skip ahead or attempt any tasks until all knowledge is restored.
 
 1. **Immediately Verify Knowledge Base Exists**
-   - First action: Check for `.claude-knowledge/` directory in current project
-   - If not found, check these alternative locations:
-     - Parent directories up to 2 levels
-   - If still not found, tell user: "No knowledge base found. Run `/project:initiate-knowledge-transfer` first."
-   - If found, immediately proceed to step 2
-   - List all 6 expected knowledge files with their last modified times
+   
+   Execute this exact search algorithm using the LS tool:
+   
+   ```
+   SEARCH ALGORITHM:
+   1. Use LS tool to check current directory for .claude-knowledge/
+   2. If not found:
+      - Save current directory path with `pwd`
+      - Use LS tool on parent directory (../)
+      - Continue checking parent directories up to 10 levels
+   3. When .claude-knowledge/ is found:
+      - Note the absolute path where it was found
+      - That directory is the project root
+   ```
+   
+   Implementation steps:
+   - Start: Check current directory with LS tool for `.claude-knowledge/`
+   - If not found: Check `../` with LS tool
+   - If not found: Check `../../` with LS tool
+   - Continue up to 10 parent levels (`../../../../../../../../../../`)
+   - Stop immediately when `.claude-knowledge/` is found
+   
+   If `.claude-knowledge/` is not found after checking 10 parent levels:
+   - Display: "❌ No .claude-knowledge/ directory found in current project hierarchy."
+   - Show: "Searched from [starting directory] up to [final directory checked]"
+   - Tell user: "Run `/project:initiate-knowledge-transfer` first to create knowledge base."
+   - STOP execution here
+   
+   If `.claude-knowledge/` is found:
+   - Display: "✅ Found .claude-knowledge/ at: [absolute path]"
+   - All subsequent file reads should use this discovered path
+   - List all 6 expected knowledge files with their existence status
+   - Proceed immediately to step 2
 
 2. **Restore Core Context** 
-   Read the files in this specific order for optimal context restoration:
+   Read the files in this specific order for optimal context restoration.
+   
+   **CRITICAL**: Use the absolute path discovered in step 1 for all file reads.
+   For example, if `.claude-knowledge/` was found at `/path/to/project/.claude-knowledge/`,
+   then read files as `/path/to/project/.claude-knowledge/PROJECT_CONTEXT.md`
 
    **a) PROJECT_CONTEXT.md** (Read First - Essential Foundation)
    - Understand the main problem being solved

@@ -209,8 +209,7 @@ Show the user (without reading files):
 🚀 Next steps:
 1. git add .claude-knowledge/
 2. git commit -m "Knowledge snapshot: [description]"
-3. Continue development - you have 96-97% context available!
-4. After compaction: /project:retrieve-knowledge-transfer
+3. After compaction: /project:retrieve-knowledge-transfer
 ```
 
 ## Key Principles
