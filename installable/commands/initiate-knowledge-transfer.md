@@ -129,14 +129,39 @@ Create 6 context packages from your existing conversation knowledge. You're not 
 
 ### 3. Launch Parallel Sub-Agents (0.5% context)
 
-For each of the 6 knowledge files, create a sub-agent task:
+Create and execute all 6 sub-agent tasks simultaneously in a single response using the Task tool. Each task should use this template:
 
+For PROJECT_CONTEXT.md:
+- Description: "Generate PROJECT_CONTEXT.md"
+- Prompt: Include the PROJECT_CONTEXT package and instructions to write comprehensive context based on the template at .claude/templates/claude-knowledge-transfer/PROJECT_CONTEXT.template.md
+
+For ARCHITECTURE.mermaid:
+- Description: "Generate ARCHITECTURE.mermaid" 
+- Prompt: Include the ARCHITECTURE package and instructions to create visual system diagram based on the template at .claude/templates/claude-knowledge-transfer/ARCHITECTURE.mermaid.template
+
+For PROGRESS_TRACKER.md:
+- Description: "Generate PROGRESS_TRACKER.md"
+- Prompt: Include the PROGRESS_TRACKER package and instructions to document task progress based on the template at .claude/templates/claude-knowledge-transfer/PROGRESS_TRACKER.template.md
+
+For IMPLEMENTATION_PLAN.md:
+- Description: "Generate IMPLEMENTATION_PLAN.md"
+- Prompt: Include the IMPLEMENTATION_PLAN package and instructions to outline remaining work based on the template at .claude/templates/claude-knowledge-transfer/IMPLEMENTATION_PLAN.template.md
+
+For INVESTIGATION_FINDINGS.md:
+- Description: "Generate INVESTIGATION_FINDINGS.md"
+- Prompt: Include the INVESTIGATION_FINDINGS package and instructions to document solutions and learnings based on the template at .claude/templates/claude-knowledge-transfer/INVESTIGATION_FINDINGS.template.md
+
+For REVIEW_FEEDBACK.md:
+- Description: "Generate REVIEW_FEEDBACK.md"
+- Prompt: Include the REVIEW_FEEDBACK package and instructions to capture quality observations based on the template at .claude/templates/claude-knowledge-transfer/REVIEW_FEEDBACK.template.md
+
+Each task prompt should follow this structure:
 ```
 You are a specialized knowledge transfer agent generating [FILENAME].
 
-Context Package: [Provide the appropriate context package]
+Context Package: [Include the appropriate JSON package here]
 
-Template Location: .claude/templates/claude-knowledge-transfer/[FILENAME].template.md
+Template Location: .claude/templates/claude-knowledge-transfer/[FILENAME]
 
 Your task:
 1. Use the context package to understand the current project state
@@ -149,13 +174,7 @@ Your task:
 Critical: Write detailed, actionable content based on the context package. Do not read other files or gather additional context.
 ```
 
-Launch all 6 sub-agents in parallel:
-- PROJECT_CONTEXT.md agent
-- ARCHITECTURE.mermaid agent  
-- PROGRESS_TRACKER.md agent
-- IMPLEMENTATION_PLAN.md agent
-- INVESTIGATION_FINDINGS.md agent
-- REVIEW_FEEDBACK.md agent
+**IMPORTANT**: Execute all 6 tasks in parallel by creating them all in a single tool use block. Do not execute them sequentially.
 
 ### 4. Handle Completions (0.5% context)
 
