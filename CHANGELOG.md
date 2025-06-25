@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2025-06-25
+
+### Fixed
+- Retrieve-knowledge-transfer command now properly prioritizes restoration
+- Prevents Claude from attempting previous tasks with incomplete context
+- Ensures knowledge retrieval happens immediately after compaction
+
+### Changed
+- Added immediate priority statement at command start
+- Enhanced execution steps with strict sequencing requirements
+- Made summary and continuation conditional on full restoration
+- Added "Retrieval First" as primary success factor
+
 ## [2.0.1] - 2025-06-25
 
 ### Fixed
